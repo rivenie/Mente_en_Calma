@@ -207,3 +207,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// Control de videos
+document.addEventListener('DOMContentLoaded', function() {
+    const videoCards = document.querySelectorAll('.video-card');
+    
+    videoCards.forEach(card => {
+        const playBtn = card.querySelector('.video-play-btn');
+        const poster = card.querySelector('.video-poster');
+        const video = card.querySelector('.video-player');
+        
+        if (playBtn && poster && video) {
+            
+            playBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                poster.style.display = 'none';
+                playBtn.style.display = 'none';
+                video.classList.add('show-video');
+                video.play();
+                
+                video.addEventListener('fullscreenchange', function() {
+                    if (document.fullscreenElement) {
+                        video.style.objectFit = 'contain';
+                    } else {
+                        video.style.objectFit = 'cover';
+                    }
+                });
+            });
+            
+            video.addEventListener('ended', function() {
+                poster.style.display = 'block';
+                playBtn.style.display = 'flex';
+                video.classList.remove('show-video');
+                video.style.objectFit = 'cover';
+            });
+            
+            video.addEventListener('pause', function() {
+                if (video.ended) {
+                    poster.style.display = 'block';
+                    playBtn.style.display = 'flex';
+                    video.classList.remove('show-video');
+                }
+            });
+        }
+    });
+});
+
+// Cerrar menú al hacer clic fuera
+document.addEventListener('click', function(event) {
+    const navLinks = document.querySelector('.nav-links');
+    const menuToggle = document.getElementById('menuToggle');
+    
+    // Si el menú está abierto y el clic NO fue en el menú ni en el botón
+    if (navLinks.classList.contains('active') && 
+        !navLinks.contains(event.target) && 
+        !menuToggle.contains(event.target)) {
+        navLinks.classList.remove('active');
+    }
+});
