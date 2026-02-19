@@ -247,6 +247,46 @@ header.hero-section#blog {
     color: #4a6fa5;
 }
 
+/*Blog*/
+.blog-contenido {
+    min-height: 500px;
+    padding: 100px 0;
+    background-color: #f9f9f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.blog-mensaje {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.blog-mensaje i {
+    font-size: 4rem;
+    color: #4a6fa5;
+    margin-bottom: 20px;
+}
+
+.blog-mensaje h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.blog-mensaje p {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
 
 /* Contenido hero */
 .hero-content {
