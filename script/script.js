@@ -1,268 +1,270 @@
-// Menú móvil
-const menuToggle = document.getElementById("menuToggle");
-const navLinks = document.querySelector(".nav-links");
+// ===== INICIALIZACIÓN =====
+document.addEventListener("DOMContentLoaded", function () {
+  // Elementos del menú
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.querySelector(".nav-links");
+  const dropdownTrigger = document.querySelector(".dropdown-trigger");
+  const dropdown = document.querySelector(".dropdown");
 
-if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", () => {
-        navLinks.classList.toggle("active");
+  // ===== MENÚ MÓVIL =====
+  if (menuToggle && navLinks) {
+    // Abrir/cerrar menú con el botón hamburguesa
+    menuToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      navLinks.classList.toggle("active");
+
+      // Si se cierra el menú, también cerrar dropdown
+      if (!navLinks.classList.contains("active")) {
+        dropdown?.classList.remove("active");
+      }
     });
-}
+  }
 
-// Cerrar menú al hacer clic en un enlace en móvil
-document.querySelectorAll(".nav-links a").forEach((link) => {
-    link.addEventListener("click", () => {
-        if (window.innerWidth <= 768 && navLinks) {
-            navLinks.classList.remove("active");
+  // ===== DROPDOWN EN MÓVIL =====
+  if (dropdownTrigger && dropdown) {
+    dropdownTrigger.addEventListener("click", function (e) {
+      // Solo en móvil
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Toggle solo el dropdown, sin afectar el menú principal
+        dropdown.classList.toggle("active");
+      }
+    });
+  }
+
+  // ===== CERRAR MENÚ AL HACER CLIC EN UN ENLACE (excepto dropdown trigger) =====
+  if (navLinks) {
+    document.querySelectorAll(".nav-links a").forEach((link) => {
+      link.addEventListener("click", function (e) {
+        // Si es el trigger del dropdown (SERVICIOS), NO cerrar el menú
+        if (this.classList.contains("dropdown-trigger")) {
+          e.preventDefault(); // Evita que recargue la página
+          return; // No cerrar el menú
         }
-    });
-});
 
-// Efecto de header al hacer scroll
-window.addEventListener("scroll", function () {
-    const nav = document.querySelector(".main-nav");
+        // Para los demás enlaces, cerrar el menú en móvil
+        if (window.innerWidth <= 768) {
+          navLinks.classList.remove("active");
+          dropdown?.classList.remove("active");
+        }
+      });
+    });
+  }
+
+  // ===== CERRAR MENÚ AL HACER CLIC FUERA =====
+  document.addEventListener("click", function (event) {
+    if (window.innerWidth <= 768 && navLinks?.classList.contains("active")) {
+      // Si el clic NO fue en el menú NI en el botón hamburguesa
+      if (
+        !navLinks.contains(event.target) &&
+        !menuToggle?.contains(event.target)
+      ) {
+        navLinks.classList.remove("active");
+        dropdown?.classList.remove("active");
+      }
+    }
+  });
+
+  // ===== RESTO DE FUNCIONALIDADES (sin cambios) =====
+
+  // Efecto de header al hacer scroll
+  const nav = document.querySelector(".main-nav");
+  window.addEventListener("scroll", function () {
     if (nav) {
-        if (window.scrollY > 100) {
-            nav.style.backgroundColor = "rgba(44, 62, 80, 0.9)";
-            nav.style.padding = "15px 0";
-        } else {
-            nav.style.backgroundColor = "transparent";
-            nav.style.padding = "20px 0";
-        }
+      if (window.scrollY > 100) {
+        nav.style.backgroundColor = "rgba(44, 62, 80, 0.9)";
+        nav.style.padding = "15px 0";
+        nav.classList.add("fixed");
+      } else {
+        nav.style.backgroundColor = "transparent";
+        nav.style.padding = "20px 0";
+        nav.classList.remove("fixed");
+      }
     }
-});
+  });
 
-window.addEventListener("scroll", function () {
-    const nav = document.querySelector(".main-nav");
-    if (nav) {
-        if (window.scrollY > 100) {
-            nav.classList.add("fixed");
-        } else {
-            nav.classList.remove("fixed");
-        }
+  // Marcar enlace activo
+  const currentPage = window.location.pathname.split("/").pop();
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    const linkHref = link.getAttribute("href");
+    if (
+      linkHref === currentPage ||
+      ((currentPage === "" || currentPage === "index.html") &&
+        linkHref === "index.html")
+    ) {
+      link.classList.add("active");
     }
-});
+  });
 
-// Marcar enlace activo en el menú según la página actual
-document.addEventListener('DOMContentLoaded', function() {
-    const currentPage = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.nav-links a');
-    
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage) {
-            link.classList.add('active');
-        } else if (currentPage === '' || currentPage === 'index.html') {
-            if (linkHref === 'index.html') {
-                link.classList.add('active');
-            }
-        }
-    });
-});
+  // Popups para servicios
+  const serviceCards = document.querySelectorAll(".service-card");
+  const overlay = document.getElementById("popupOverlay");
+  const popupAdultos = document.getElementById("popupAdultos");
+  const popupAdolescentes = document.getElementById("popupAdolescentes");
+  const popupTalleres = document.getElementById("popupTalleres");
 
-// Popups para servicios
-document.addEventListener('DOMContentLoaded', function() {
-    const serviceCards = document.querySelectorAll('.service-card');
-    const overlay = document.getElementById('popupOverlay');
-    
-    // Popups por ID
-    const popupAdultos = document.getElementById('popupAdultos');
-    const popupAdolescentes = document.getElementById('popupAdolescentes');
-    const popupTalleres = document.getElementById('popupTalleres');
-    
-    // Abrir popup según el servicio
-    serviceCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const service = this.getAttribute('data-service');
-            
-            // Cerrar cualquier popup abierto
-            closeAllPopups();
-            
-            // Abrir el popup correspondiente
-            if (service === 'adultos' && popupAdultos) {
-                popupAdultos.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            } else if (service === 'adolescentes' && popupAdolescentes) {
-                popupAdolescentes.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            } else if (service === 'talleres' && popupTalleres) {
-                popupTalleres.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-        });
+  function closeAllPopups() {
+    document
+      .querySelectorAll(".popup-container")
+      .forEach((p) => p.classList.remove("active"));
+    overlay?.classList.remove("active");
+    document.body.style.overflow = "auto";
+  }
+
+  serviceCards.forEach((card) => {
+    card.addEventListener("click", function () {
+      const service = this.getAttribute("data-service");
+      closeAllPopups();
+
+      if (service === "adultos" && popupAdultos) {
+        popupAdultos.classList.add("active");
+        overlay?.classList.add("active");
+        document.body.style.overflow = "hidden";
+      } else if (service === "adolescentes" && popupAdolescentes) {
+        popupAdolescentes.classList.add("active");
+        overlay?.classList.add("active");
+        document.body.style.overflow = "hidden";
+      } else if (service === "talleres" && popupTalleres) {
+        popupTalleres.classList.add("active");
+        overlay?.classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
     });
-    
-    // Función para cerrar todos los popups
-    function closeAllPopups() {
-        const popups = document.querySelectorAll('.popup-container');
-        popups.forEach(popup => {
-            popup.classList.remove('active');
-        });
-        
-        if (overlay) {
-            overlay.classList.remove('active');
-        }
-        
-        document.body.style.overflow = 'auto';
-    }
-    
-    // Cerrar al hacer clic en el botón X
-    document.querySelectorAll('.popup-close').forEach(btn => {
-        btn.addEventListener('click', closeAllPopups);
-    });
-    
-    // Cerrar al hacer clic en el overlay
-    if (overlay) {
-        overlay.addEventListener('click', closeAllPopups);
-    }
-    
-    // Cerrar con tecla ESC
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeAllPopups();
-        }
-    });
-});
-// Carrusel de comentarios
-document.addEventListener('DOMContentLoaded', function() {
-    const track = document.querySelector('.comentarios-carrusel-track');
-    const slides = document.querySelectorAll('.comentario-carrusel-slide');
-    const prevBtn = document.querySelector('.comentarios-prev-btn');
-    const nextBtn = document.querySelector('.comentarios-next-btn');
-    const dots = document.querySelectorAll('.comentarios-dot');
-    
-    if (!track || slides.length === 0) return;
-    
+  });
+
+  document
+    .querySelectorAll(".popup-close")
+    .forEach((btn) => btn.addEventListener("click", closeAllPopups));
+  overlay?.addEventListener("click", closeAllPopups);
+  document.addEventListener(
+    "keydown",
+    (e) => e.key === "Escape" && closeAllPopups(),
+  );
+
+  // Carrusel de comentarios
+  const track = document.querySelector(".comentarios-carrusel-track");
+  const slides = document.querySelectorAll(".comentario-carrusel-slide");
+  const prevBtn = document.querySelector(".comentarios-prev-btn");
+  const nextBtn = document.querySelector(".comentarios-next-btn");
+  const dots = document.querySelectorAll(".comentarios-dot");
+
+  if (track && slides.length) {
     let currentIndex = 0;
     let slidesPerView = window.innerWidth <= 768 ? 1 : 2;
-    const totalSlides = slides.length;
-    const maxIndex = Math.ceil(totalSlides / slidesPerView) - 1;
-    
+    const maxIndex = Math.ceil(slides.length / slidesPerView) - 1;
+
     function updateCarousel() {
-        const slideWidth = slides[0].offsetWidth + 30; // incluye gap
-        track.style.transform = `translateX(-${currentIndex * slideWidth * slidesPerView}px)`;
-        
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
-        });
+      const slideWidth = slides[0].offsetWidth + 30;
+      track.style.transform = `translateX(-${currentIndex * slideWidth * slidesPerView}px)`;
+      dots.forEach((dot, i) =>
+        dot.classList.toggle("active", i === currentIndex),
+      );
     }
-    
-    function nextSlide() {
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
-        }
-        updateCarousel();
-    }
-    
-    function prevSlide() {
-        if (currentIndex > 0) {
-            currentIndex--;
-        } else {
-            currentIndex = maxIndex;
-        }
-        updateCarousel();
-    }
-    
-    prevBtn.addEventListener('click', prevSlide);
-    nextBtn.addEventListener('click', nextSlide);
-    
-    dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-            currentIndex = i;
-            updateCarousel();
-        });
+
+    prevBtn?.addEventListener("click", () => {
+      currentIndex = currentIndex > 0 ? currentIndex - 1 : maxIndex;
+      updateCarousel();
     });
-    
-    window.addEventListener('resize', () => {
-        slidesPerView = window.innerWidth <= 768 ? 1 : 2;
-        updateCarousel();
+
+    nextBtn?.addEventListener("click", () => {
+      currentIndex = currentIndex < maxIndex ? currentIndex + 1 : 0;
+      updateCarousel();
     });
-    
+
+    dots.forEach((dot, i) =>
+      dot.addEventListener("click", () => {
+        currentIndex = i;
+        updateCarousel();
+      }),
+    );
+
+    window.addEventListener("resize", () => {
+      slidesPerView = window.innerWidth <= 768 ? 1 : 2;
+      updateCarousel();
+    });
+
     updateCarousel();
-});
+  }
 
-// Funcionalidad Leer más en comentarios
-document.addEventListener('DOMContentLoaded', function() {
-    const leerMasBotones = document.querySelectorAll('.leer-mas-btn');
-    
-    leerMasBotones.forEach(boton => {
-        boton.addEventListener('click', function() {
-            const cuerpo = this.closest('.comentario-carrusel-cuerpo');
-            const textoCorto = cuerpo.querySelector('.texto-corto');
-            const textoCompleto = cuerpo.querySelector('.texto-completo');
-            
-            if (textoCorto.style.display !== 'none') {
-                textoCorto.style.display = 'none';
-                textoCompleto.style.display = 'inline';
-                this.textContent = 'Leer menos';
-            } else {
-                textoCorto.style.display = 'inline';
-                textoCompleto.style.display = 'none';
-                this.textContent = 'Leer más';
-            }
+  // Leer más en comentarios
+  document.querySelectorAll(".leer-mas-btn").forEach((boton) => {
+    boton.addEventListener("click", function () {
+      const cuerpo = this.closest(".comentario-carrusel-cuerpo");
+      const textoCorto = cuerpo.querySelector(".texto-corto");
+      const textoCompleto = cuerpo.querySelector(".texto-completo");
+
+      if (textoCorto.style.display !== "none") {
+        textoCorto.style.display = "none";
+        textoCompleto.style.display = "inline";
+        this.textContent = "Leer menos";
+      } else {
+        textoCorto.style.display = "inline";
+        textoCompleto.style.display = "none";
+        this.textContent = "Leer más";
+      }
+    });
+  });
+
+  // Control de videos
+  document.querySelectorAll(".video-card").forEach((card) => {
+    const playBtn = card.querySelector(".video-play-btn");
+    const poster = card.querySelector(".video-poster");
+    const video = card.querySelector(".video-player");
+
+    if (playBtn && poster && video) {
+      playBtn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        poster.style.display = "none";
+        playBtn.style.display = "none";
+        video.classList.add("show-video");
+        video.play();
+
+        video.addEventListener("fullscreenchange", function () {
+          video.style.objectFit = document.fullscreenElement
+            ? "contain"
+            : "cover";
         });
-    });
-});
+      });
 
-// Control de videos
-document.addEventListener('DOMContentLoaded', function() {
-    const videoCards = document.querySelectorAll('.video-card');
-    
-    videoCards.forEach(card => {
-        const playBtn = card.querySelector('.video-play-btn');
-        const poster = card.querySelector('.video-poster');
-        const video = card.querySelector('.video-player');
-        
-        if (playBtn && poster && video) {
-            
-            playBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                
-                poster.style.display = 'none';
-                playBtn.style.display = 'none';
-                video.classList.add('show-video');
-                video.play();
-                
-                video.addEventListener('fullscreenchange', function() {
-                    if (document.fullscreenElement) {
-                        video.style.objectFit = 'contain';
-                    } else {
-                        video.style.objectFit = 'cover';
-                    }
-                });
-            });
-            
-            video.addEventListener('ended', function() {
-                poster.style.display = 'block';
-                playBtn.style.display = 'flex';
-                video.classList.remove('show-video');
-                video.style.objectFit = 'cover';
-            });
-            
-            video.addEventListener('pause', function() {
-                if (video.ended) {
-                    poster.style.display = 'block';
-                    playBtn.style.display = 'flex';
-                    video.classList.remove('show-video');
-                }
-            });
-        }
-    });
-});
-
-// Cerrar menú al hacer clic fuera
-document.addEventListener('click', function(event) {
-    const navLinks = document.querySelector('.nav-links');
-    const menuToggle = document.getElementById('menuToggle');
-    
-    // Si el menú está abierto y el clic NO fue en el menú ni en el botón
-    if (navLinks.classList.contains('active') && 
-        !navLinks.contains(event.target) && 
-        !menuToggle.contains(event.target)) {
-        navLinks.classList.remove('active');
+      video.addEventListener("ended", function () {
+        poster.style.display = "block";
+        playBtn.style.display = "flex";
+        video.classList.remove("show-video");
+        video.style.objectFit = "cover";
+      });
     }
+  });
+
+  // Acordeones
+  document.querySelectorAll(".accordion-header").forEach((header) => {
+    header.addEventListener("click", function () {
+      document.querySelectorAll(".accordion-header").forEach((h) => {
+        if (h !== header && h.classList.contains("active")) {
+          h.classList.remove("active");
+          h.nextElementSibling?.classList.remove("show");
+        }
+      });
+      this.classList.toggle("active");
+      this.nextElementSibling?.classList.toggle("show");
+    });
+  });
+
+  // Texto expandible Sobre Mí
+  const aboutContent = document.getElementById("aboutTextContent");
+  const toggleBtn = document.getElementById("aboutToggleBtn");
+
+  if (aboutContent && toggleBtn) {
+    aboutContent.classList.add("collapsed");
+    toggleBtn.addEventListener("click", function () {
+      const isExpanded = aboutContent.classList.contains("expanded");
+      aboutContent.classList.toggle("expanded");
+      aboutContent.classList.toggle("collapsed");
+      this.classList.toggle("expanded");
+      this.querySelector("span").textContent = isExpanded
+        ? "Ver más"
+        : "Ver menos";
+    });
+  }
 });
