@@ -1778,7 +1778,7 @@ header.hero-section#blog {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .dropdown .dropdown-menu {
         position: static !important;
         background: rgba(255, 255, 255, 0.1) !important;
