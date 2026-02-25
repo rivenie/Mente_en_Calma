@@ -1778,7 +1778,7 @@ header.hero-section#blog {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
     .dropdown .dropdown-menu {
         position: static !important;
         background: rgba(255, 255, 255, 0.1) !important;
@@ -1915,6 +1915,7 @@ header.hero-section#blog {
 
     .logo-image {
         content: url('../img/logo2.png');
+        height: 85px;
     }
 
     .areas-container {
