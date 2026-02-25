@@ -154,7 +154,7 @@ header.hero-section#blog {
 }
 
 .logo-image {
-    height: 100px;
+    max-height: 100px;
     width: auto;
     vertical-align: middle;
     transition: all 0.3s ease;
@@ -1915,7 +1915,7 @@ header.hero-section#blog {
 
     .logo-image {
         content: url('../img/logo2.png');
-        height: 85px;
+        max-height: 85px;
     }
 
     .areas-container {
@@ -1975,7 +1975,7 @@ header.hero-section#blog {
     }
 
     .logo-image {
-        height: 85px;
+        max-height: 85px;
     }
 
     .menu-toggle {
