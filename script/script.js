@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("scroll", function () {
     if (nav) {
       if (window.scrollY > 100) {
-        nav.style.backgroundColor = "rgba(44, 62, 80, 0.9)";
+        nav.style.backgroundColor = "rgb(76, 125, 158, 0.9)";
         nav.style.padding = "15px 0";
         nav.classList.add("fixed");
       } else {

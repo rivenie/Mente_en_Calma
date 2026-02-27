@@ -66,9 +66,11 @@ body {
     0% {
         box-shadow: 0 0 0 0 rgba(76, 125, 158, 0.7);
     }
+
     70% {
         box-shadow: 0 0 0 15px rgba(76, 125, 158, 0);
     }
+
     100% {
         box-shadow: 0 0 0 0 rgba(76, 125, 158, 0);
     }
@@ -101,6 +103,10 @@ header.hero-section#equipoClinico {
 
 header.hero-section#servicios {
     background-image: url('https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+}
+
+header.hero-section#servicios-asesoria {
+    background-image: url('../img/servicios.jpg');
 }
 
 header.hero-section#metodologia {
@@ -436,7 +442,7 @@ header.hero-section#blog {
 /* Estilos del acordeón */
 .accordion-item {
     margin-bottom: 16px;
-    border-radius: 12px;    
+    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
@@ -524,6 +530,36 @@ header.hero-section#blog {
     text-align: center;
     transition: all 0.3s ease;
     border: 1px solid rgba(76, 125, 158, 0.1);
+}
+
+.valor-card.color-1 {
+    background-color: #f1ebe1;
+}
+
+.valor-card.color-2 {
+    background-color: #8fb4aa;
+}
+
+.valor-card.color-3 {
+    background-color: #c3aa9c;
+}
+
+.valor-card.color-4 {
+    background-color: #88b1bd;
+}
+
+.valor-card.color-2 .valor-titulo,
+.valor-card.color-2 .valor-descripcion,
+.valor-card.color-4 .valor-titulo,
+.valor-card.color-4 .valor-descripcion {
+    color: #2c3e50;
+    /* Texto oscuro para fondos claros */
+}
+
+.valor-card.color-3 .valor-titulo,
+.valor-card.color-3 .valor-descripcion {
+    color: #2c3e50;
+    /* También legible en este tono */
 }
 
 .valor-card:hover {
@@ -629,6 +665,46 @@ header.hero-section#blog {
     height: 285px;
 }
 
+/* Colores de fondo personalizados */
+.metodologia-card.color-meta-1 {
+    background-color: #f1ebe1;
+}
+
+.metodologia-card.color-meta-2 {
+    background-color: #4c7d9e;
+}
+
+.metodologia-card.color-meta-3 {
+    background-color: #8fb4aa;
+}
+
+.metodologia-card.color-meta-4 {
+    background-color: #c3aa9c;
+}
+
+.metodologia-card.color-meta-5 {
+    background-color: #88b1bd;
+}
+
+/* Ajuste de color de texto e iconos para legibilidad */
+.metodologia-card.color-meta-2 .metodologia-icono i,
+.metodologia-card.color-meta-2 .metodologia-titulo,
+.metodologia-card.color-meta-2 .metodologia-descripcion {
+    color: #f1ebe1;
+}
+
+.metodologia-card.color-meta-3 .metodologia-icono i,
+.metodologia-card.color-meta-3 .metodologia-titulo,
+.metodologia-card.color-meta-3 .metodologia-descripcion,
+.metodologia-card.color-meta-4 .metodologia-icono i,
+.metodologia-card.color-meta-4 .metodologia-titulo,
+.metodologia-card.color-meta-4 .metodologia-descripcion,
+.metodologia-card.color-meta-5 .metodologia-icono i,
+.metodologia-card.color-meta-5 .metodologia-titulo,
+.metodologia-card.color-meta-5 .metodologia-descripcion {
+    color: #2c3e50;
+}
+
 .metodologia-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 15px 30px rgba(76, 125, 158, 0.15);
@@ -659,7 +735,7 @@ header.hero-section#blog {
 .metodologia-descripcion {
     font-size: 0.8rem;
     line-height: 1.4;
-    color: #8fb4aa;
+    color: #4c7d9e;
     margin: 0;
     width: 100%;
 }
@@ -811,6 +887,22 @@ header.hero-section#blog {
     transition: transform 0.3s, box-shadow 0.3s;
     text-align: center;
     padding-bottom: 30px;
+}
+
+/* Ajuste de legibilidad para textos */
+.equipo-card.color-equipo-1 .equipo-nombre,
+.equipo-card.color-equipo-1 .equipo-descripcion {
+    color: #8fb4aa;
+}
+
+.equipo-card.color-equipo-2 .equipo-nombre,
+.equipo-card.color-equipo-2 .equipo-descripcion {
+    color: #c3aa9c;
+}
+
+.equipo-card.color-equipo-3 .equipo-nombre,
+.equipo-card.color-equipo-3 .equipo-descripcion {
+    color: #88b1bd;
 }
 
 .equipo-card:hover {
@@ -1111,7 +1203,7 @@ header.hero-section#blog {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 98%;
     background: rgba(76, 125, 158, 0.4);
     border-radius: 20px;
     display: flex;
@@ -1154,7 +1246,7 @@ header.hero-section#blog {
 }
 
 .asesoria-lista-preguntas li::before {
-    content: "?";
+    content: "•";
     color: #c3aa9c;
     font-weight: bold;
     font-size: 1.2rem;
@@ -1180,6 +1272,35 @@ header.hero-section#blog {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
+}
+
+/* Colores de fondo personalizados */
+.asesoria-card.color-asesoria-1 {
+    background-color: #4c7d9e;
+}
+
+.asesoria-card.color-asesoria-2 {
+    background-color: #8fb4aa;
+}
+
+.asesoria-card.color-asesoria-3 {
+    background-color: #c3aa9c;
+}
+
+.asesoria-card.color-asesoria-4 {
+    background-color: #88b1bd;
+}
+
+/* Ajuste de legibilidad para textos */
+.asesoria-card.color-asesoria-1 .asesoria-card-titulo,
+.asesoria-card.color-asesoria-1 .asesoria-card-texto,
+.asesoria-card.color-asesoria-2 .asesoria-card-titulo,
+.asesoria-card.color-asesoria-2 .asesoria-card-texto,
+.asesoria-card.color-asesoria-3 .asesoria-card-titulo,
+.asesoria-card.color-asesoria-3 .asesoria-card-texto,
+.asesoria-card.color-asesoria-4 .asesoria-card-titulo,
+.asesoria-card.color-asesoria-4 .asesoria-card-texto {
+    color: #f1ebe1;
 }
 
 .asesoria-card {
@@ -1768,6 +1889,7 @@ header.hero-section#blog {
 }
 
 @media (max-width: 992px) {
+
     /* Comentarios carrusel */
     .comentario-carrusel-slide {
         flex: 0 0 calc(100% - 15px);
@@ -1782,7 +1904,7 @@ header.hero-section#blog {
     .dropdown .dropdown-menu {
         position: static !important;
         background: rgba(255, 255, 255, 0.1) !important;
-        box-shadow: none !important;        
+        box-shadow: none !important;
         margin-top: 5px !important;
         opacity: 1 !important;
         visibility: visible !important;
@@ -1900,10 +2022,6 @@ header.hero-section#blog {
     .terapia-block,
     .taller-block {
         margin-bottom: 60px;
-    }
-
-    .about-text-content {
-        max-height: 200px;
     }
 
     .about-text-container {
